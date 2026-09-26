@@ -19,5 +19,8 @@
     "sih-2026"
   ],
   "author": "Department of Legal Metrology",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
 }
