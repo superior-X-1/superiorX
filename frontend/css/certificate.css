@@ -1,0 +1,379 @@
+/* ==========================================================================
+   Measure X — Digital Verification Certificate & Print Styles
+   Authoritative Legal Metrology Style — Digital Platform
+   ========================================================================== */
+
+.certificate-page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 16px 0 36px 0;
+}
+
+.certificate-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Formal Certificate Container */
+.official-certificate {
+  background-color: #FFFFFF;
+  border: 10px double #0B5D4B;
+  outline: 2px solid #C9972B;
+  outline-offset: -6px;
+  padding: 38px 44px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  color: #263238;
+  overflow: hidden;
+}
+
+/* Security Watermark */
+.official-certificate::before {
+  content: 'LEGAL METROLOGY VERIFIED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: rgba(11, 93, 75, 0.04);
+  letter-spacing: 6px;
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+/* Certificate Header */
+.cert-header {
+  text-align: center;
+  border-bottom: 2px solid #0B5D4B;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.cert-emblem {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 10px auto;
+}
+
+.cert-govt-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #5F6B66;
+  margin-bottom: 3px;
+}
+
+.cert-main-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0B5D4B;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.cert-sub-title {
+  font-size: 0.8125rem;
+  color: #5F6B66;
+  font-style: italic;
+}
+
+.cert-number-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 5px 16px;
+  background-color: #EEF8F1;
+  border: 1px solid #A3D4B6;
+  border-radius: var(--radius-xs);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0B5D4B;
+  font-family: var(--font-mono);
+}
+
+/* Certificate Body Details */
+.cert-body {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 28px;
+}
+
+.cert-preamble {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 20px;
+  color: #374151;
+}
+
+.cert-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+  background-color: #FAFBF9;
+  border: 1px solid var(--color-border);
+  padding: 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+}
+
+.cert-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.cert-detail-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #5F6B66;
+  margin-bottom: 2px;
+}
+
+.cert-detail-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #263238;
+}
+
+.cert-detail-value.font-mono {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* Status Stamp */
+.cert-status-stamp {
+  position: absolute;
+  top: 110px;
+  right: 40px;
+  padding: 8px 20px;
+  border: 3px solid;
+  border-radius: var(--radius-xs);
+  font-size: 1.125rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transform: rotate(6deg);
+  opacity: 0.9;
+  z-index: 3;
+  animation: stampSettle 380ms var(--ease-out-smooth) 160ms backwards;
+}
+
+.cert-status-stamp.stamp-valid {
+  border-color: #287A4B;
+  color: #287A4B;
+  background-color: rgba(235, 245, 239, 0.6);
+}
+
+.cert-status-stamp.stamp-expired {
+  border-color: #B7791F;
+  color: #B7791F;
+  background-color: rgba(254, 247, 236, 0.6);
+}
+
+.cert-status-stamp.stamp-revoked {
+  border-color: #B33A3A;
+  color: #B33A3A;
+  background-color: rgba(253, 240, 240, 0.6);
+}
+
+/* Certificate Footer & Signatures */
+.cert-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.cert-qr-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xs);
+  background-color: #FFFFFF;
+  transition: all var(--trans-fast);
+}
+
+.cert-qr-area:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-subtle);
+}
+
+.cert-qr-box {
+  width: 84px;
+  height: 84px;
+}
+
+.cert-qr-hint {
+  font-size: 0.6875rem;
+  color: #5F6B66;
+  font-weight: 700;
+}
+
+.cert-signatures {
+  display: flex;
+  gap: 36px;
+}
+
+.cert-signature-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.signature-line {
+  width: 140px;
+  height: 1px;
+  background-color: #263238;
+  margin-top: 36px;
+  margin-bottom: 5px;
+}
+
+.signature-name {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #263238;
+}
+
+.signature-title {
+  font-size: 0.6875rem;
+  color: #5F6B66;
+}
+
+/* ==========================================================================
+   Verification Scanning Animation & Interactive States
+   ========================================================================== */
+
+@keyframes certScannerSweep {
+  0% {
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 96%;
+    opacity: 1;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.8;
+  }
+}
+
+@keyframes stampSettle {
+  0% {
+    opacity: 0;
+    transform: scale(1.3) rotate(-14deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+}
+
+.verification-scanning-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 32px 24px;
+  text-align: center;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.verification-scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #0B5D4B 25%, #C9972B 50%, #0B5D4B 75%, transparent);
+  box-shadow: 0 0 16px rgba(201, 151, 43, 0.7);
+  animation: certScannerSweep 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.verification-radar-pulse {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseSubtle 1.8s infinite ease-in-out;
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+  font-size: 1.75rem;
+}
+
+.cert-official-seal-wrap {
+  animation: stampSettle 380ms var(--ease-out-smooth) 160ms backwards;
+}
+
+/* ==========================================================================
+   Print Styles for Official A4 Certificate
+   ========================================================================== */
+
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+  }
+
+  .skip-link,
+  .app-header,
+  .sidebar,
+  .gov-breadcrumb-bar,
+  .certificate-actions-bar,
+  .app-footer,
+  #toast-container {
+    display: none !important;
+  }
+
+  .app-body-container {
+    display: block !important;
+  }
+
+  .app-main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .certificate-page-wrap {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .official-certificate {
+    box-shadow: none !important;
+    border: 6px double #0B5D4B !important;
+    margin: 0 auto;
+    page-break-inside: avoid;
+  }
+}

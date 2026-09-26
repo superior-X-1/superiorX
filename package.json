@@ -1,0 +1,23 @@
+{
+  "name": "measure-x",
+  "version": "1.0.0",
+  "description": "Government Legal Metrology Digital Verification, Certification, and Tracking Network",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "npx serve -l 3000 -n -s .",
+    "backend": "python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload",
+    "backend:prod": "python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000",
+    "build": "echo \"MeasureX Build Verification Successful: Vanilla HTML/CSS/JS ready for deployment.\""
+  },
+  "keywords": [
+    "legal-metrology",
+    "verification",
+    "weighing-instruments",
+    "digital-india",
+    "sih-2026"
+  ],
+  "author": "Department of Legal Metrology",
+  "license": "ISC"
+}
