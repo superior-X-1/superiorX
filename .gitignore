@@ -1,0 +1,62 @@
+# Python Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Caches and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node.js dependencies & builds
+node_modules/
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+!.env.example
+
+# Logs and runtime databases
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.sqlite
+*.sqlite3
+*.db
+backend/measurex.db
+
+# Runtime uploads (generated certificates, evidence, documents)
+storage/
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor metadata
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.kilo/

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+  <meta name="description" content="Measure X — Government Legal Metrology Network for Digital Verification, Certification, and Tracking of Commercial Weighing and Measuring Instruments." />
+  <meta name="author" content="Legal Metrology Digital Network" />
+  <meta name="theme-color" content="#0B5D4B" />
+  <title>Measure X — Online Verification of Weighing &amp; Measuring Instruments</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="frontend/assets/logo/favicon.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="frontend/css/main.css" />
+  <link rel="stylesheet" href="frontend/css/components.css" />
+  <link rel="stylesheet" href="frontend/css/dashboard.css" />
+  <link rel="stylesheet" href="frontend/css/certificate.css" />
+  <link rel="stylesheet" href="frontend/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Accessible Skip to Content Link (GIGW 3.0 / WCAG 2.1 AA) -->
+  <a href="#main-content-area" class="skip-link">Skip to main content</a>
+
+  <!-- =========================================================================
+       Professional Splash Screen (Feature 20)
+       ========================================================================= -->
+  <div id="splash-screen" role="status" aria-live="polite">
+    <div class="splash-content">
+      <div class="splash-mark">
+        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="12" y1="12" x2="12" y2="20" stroke="#C9972B" stroke-width="2.5" stroke-linecap="round" />
+          <line x1="18" y1="12" x2="18" y2="17" stroke="#C9972B" stroke-width="2" stroke-linecap="round" />
+          <line x1="24" y1="12" x2="24" y2="20" stroke="#C9972B" stroke-width="2.5" stroke-linecap="round" />
+          <line x1="30" y1="12" x2="30" y2="17" stroke="#C9972B" stroke-width="2" stroke-linecap="round" />
+          <line x1="36" y1="12" x2="36" y2="20" stroke="#C9972B" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M12 25 L38 25" stroke="#0B5D4B" stroke-width="1.5" stroke-dasharray="2 2" />
+          <path d="M15 36 L24 43 L37 28" stroke="#0B5D4B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="splash-title">Measure <span>X</span></div>
+      <div class="splash-tagline">Digital Legal Metrology Platform</div>
+    </div>
+    <button type="button" class="splash-skip-btn" id="splash-skip-btn">Skip Intro ➔</button>
+  </div>
+
+  <!-- =========================================================================
+       Institutional Header & Brand Navigation
+       ========================================================================= -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-brand-group">
+        <button type="button" class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation menu" title="Toggle Navigation / Sidebar Menu" aria-expanded="false">
+          <svg class="hamburger-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a href="#landing" class="brand-link" aria-label="Measure X Homepage — Legal Metrology Digital Verification">
+          <img src="frontend/assets/logo/measure-x-logo.svg" alt="Measure X Logo" class="brand-logo-img" />
+        </a>
+      </div>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Primary Navigation">
+        <a href="#landing" class="nav-link" id="nav-home">Home</a>
+        <a href="#services" class="nav-link" id="nav-services">Services</a>
+        <a href="#how-it-works" class="nav-link" id="nav-how">How It Works</a>
+        <a href="#verify" class="nav-link" id="nav-verify">Verify Certificate</a>
+        <a href="#rules" class="nav-link" id="nav-rules">Rules &amp; Regulations</a>
+        <a href="#help" class="nav-link" id="nav-help">Help &amp; Contact</a>
+      </nav>
+
+      <!-- User / Auth Header Section -->
+      <div class="header-user-section" id="header-user-section">
+        <a href="#verify" class="btn btn-sm btn-outline header-verify-btn" style="border-color:var(--color-primary); color:var(--color-primary); font-weight:600;">Verify Certificate</a>
+        <a href="#login" class="btn btn-sm btn-outline header-login-btn" style="font-weight:700;">Login</a>
+        <a href="#register" class="btn btn-sm btn-primary header-register-btn" style="font-weight:700;">Register</a>
+      </div>
+
+
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       App Body: Sidebar + Main Content (SPA Router Target)
+       ========================================================================= -->
+  <div class="app-body-container" id="app-body">
+    <!-- Populated dynamically by app.js router -->
+  </div>
+
+  <!-- =========================================================================
+       Official Footer (Government Digital Service Style)
+       ========================================================================= -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div style="font-size:1.25rem; font-weight:900; color:#ffffff; letter-spacing:-0.5px;">Measure <span style="color:#C9972B;">X</span></div>
+          <div style="font-size:0.75rem; color:#A4D4C8; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-top:2px;">Legal Metrology Digital Verification Network</div>
+          <p>
+            An official digital public service platform for statutory verification, periodic re-verification, enforcement inspection, and public authentication of commercial weighing and measuring instruments under the Legal Metrology Act, 2009.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-heading">Services</div>
+          <ul class="footer-links">
+            <li><a href="#register-owner">Instrument Registration</a></li>
+            <li><a href="#owner-apply">Verification Application</a></li>
+            <li><a href="#verify">Public QR Verification</a></li>
+            <li><a href="#rules">Rules &amp; Regulations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">Portals</div>
+          <ul class="footer-links">
+            <li><a href="#login-owner">Trader / Owner Portal</a></li>
+            <li><a href="#login-lmo">Legal Metrology Officer (LMO)</a></li>
+            <li><a href="#login-admin">State Administration Console</a></li>
+            <li><a href="#verify">Citizen QR Verification</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">Statutory &amp; Help</div>
+          <ul class="footer-links">
+            <li><a href="#rules">Legal Metrology Act, 2009</a></li>
+            <li><a href="#rules">MPE Tolerance Standards</a></li>
+            <li><a href="#help">Help Desk &amp; Grievance Redressal</a></li>
+            <li><a href="#how-it-works">Standard Operating Procedure</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-disclaimer">
+          <strong>Official Notice:</strong> Statutory digital service platform for the registration, verification, calibration, and tracking of commercial weighing and measuring instruments under the Legal Metrology Act, 2009.
+        </div>
+        <div>
+          © 2026 Measure X • Department of Legal Metrology. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sidebar Off-Canvas Backdrop for Mobile/Tablet -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
+  <!-- Mobile Fixed Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation Bar"></nav>
+
+  <!-- Toast Notification Floating Container -->
+  <div id="toast-container" aria-live="assertive"></div>
+
+  <!-- External & Vendor Libraries -->
+  <script src="frontend/js/vendor/html5-qrcode.min.js"></script>
+
+  <!-- JavaScript Modules in Dependency Order -->
+  <script src="frontend/js/config.js"></script>
+  <script src="frontend/js/data/mock-data.js"></script>
+  <script src="frontend/js/state/state.js"></script>
+  <script src="frontend/js/services/api.js"></script>
+  <script src="frontend/js/services/offline-sync.js"></script>
+  <script src="frontend/js/ui/validation.js"></script>
+  <script src="frontend/js/ui/components.js"></script>
+  <script src="frontend/js/app.js"></script>
+
+  <!-- Service Worker Registration for PWA Offline Mode -->
+  <script>
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('[MeasureX PWA] Service Worker registered:', reg.scope))
+          .catch(err => console.log('[MeasureX PWA] Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

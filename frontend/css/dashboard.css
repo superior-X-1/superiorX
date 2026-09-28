@@ -1,0 +1,814 @@
+/* ==========================================================================
+   Measure X — Institutional Dashboard, Calendar & Field Verification Styles
+   ========================================================================== */
+
+/* Dashboard Metrics Grid */
+.dashboard-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.dashboard-metrics-grid .stat-card {
+  opacity: 0;
+  animation: fadeInUp 260ms var(--ease-out-smooth) forwards;
+}
+
+.dashboard-metrics-grid .stat-card:nth-child(1) { animation-delay: 40ms; }
+.dashboard-metrics-grid .stat-card:nth-child(2) { animation-delay: 80ms; }
+.dashboard-metrics-grid .stat-card:nth-child(3) { animation-delay: 120ms; }
+.dashboard-metrics-grid .stat-card:nth-child(4) { animation-delay: 160ms; }
+.dashboard-metrics-grid .stat-card:nth-child(5) { animation-delay: 200ms; }
+.dashboard-metrics-grid .stat-card:nth-child(6) { animation-delay: 240ms; }
+
+.dashboard-section {
+  margin-bottom: 28px;
+  animation: fadeInUp 280ms var(--ease-out-smooth) 120ms backwards;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Two-column layout */
+.dashboard-grid-2col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Verification Calendar (Month View & List View)
+   ========================================================================== */
+
+.calendar-wrapper {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.calendar-header {
+  padding: 12px 18px;
+  background-color: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-month-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.calendar-view-toggle {
+  display: flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.calendar-view-btn {
+  padding: 5px 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background-color: #FFFFFF;
+  color: var(--color-text-secondary);
+}
+
+.calendar-view-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* Month Grid */
+.calendar-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calendar-day-header {
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+  text-transform: uppercase;
+}
+
+.calendar-day-cell {
+  min-height: 80px;
+  padding: 6px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.calendar-day-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day-cell.other-month {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+.calendar-day-cell.today {
+  background-color: var(--color-primary-subtle);
+}
+
+.calendar-day-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.calendar-day-cell.today .calendar-day-num {
+  color: var(--color-primary);
+}
+
+.calendar-event-chip {
+  padding: 2px 5px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border: 1px solid var(--color-info-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* Calendar List View */
+.calendar-list-view {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calendar-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Reports & Analytics Charts (Solid Restrained Colors)
+   ========================================================================== */
+
+.chart-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+}
+
+.chart-container {
+  margin-top: 14px;
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 14px 6px 6px 6px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.chart-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.chart-bars-wrap {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  height: 170px;
+}
+
+.chart-bar {
+  width: 16px;
+  border-radius: 2px 2px 0 0;
+  position: relative;
+}
+
+.chart-bar-passed { background-color: var(--color-success); }
+.chart-bar-failed { background-color: var(--color-danger); }
+
+.chart-bar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 14px;
+  font-size: 0.8125rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+}
+
+/* ==========================================================================
+   LMO Mobile Field Verification Interface
+   ========================================================================== */
+
+.field-verification-container {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.field-inspection-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.inspection-check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  gap: 10px;
+}
+
+.check-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.check-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-btn-toggle {
+  min-height: 44px;
+  min-width: 84px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border-dark);
+  background-color: #FFFFFF;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--trans-fast);
+  touch-action: manipulation;
+}
+
+.check-btn-toggle:active {
+  transform: scale(0.96);
+}
+
+.check-btn-toggle.checked-pass {
+  background-color: var(--color-success);
+  color: #FFFFFF;
+  border-color: var(--color-success);
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.28);
+}
+
+.check-btn-toggle.checked-fail {
+  background-color: var(--color-danger);
+  color: #FFFFFF;
+  border-color: var(--color-danger);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.28);
+}
+
+/* Evidence Cards & Grid (Feature 14, 37) */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.evidence-card {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  transition: border-color var(--trans-fast);
+}
+
+.evidence-card.has-file {
+  border-color: var(--color-success);
+  background: #F0FDF4;
+}
+
+.evidence-preview-box {
+  background: #FFFFFF;
+  border: 1px dashed var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.evidence-preview-box img {
+  max-width: 100%;
+  max-height: 110px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Accuracy Test Result Box */
+.accuracy-result-box {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.accuracy-status-badge {
+  font-size: 0.875rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+}
+
+/* Sticky Action Bar for Mobile Verification (Feature 37) */
+.mobile-sticky-actionbar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #FFFFFF;
+  border-top: 2px solid var(--color-border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  z-index: 100;
+  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-sticky-actionbar .btn {
+  min-height: 44px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .check-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .check-options {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .check-btn-toggle {
+    min-height: 48px;
+    width: 100%;
+  }
+  .mobile-sticky-actionbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px)) 14px;
+  }
+  .mobile-sticky-actionbar > div:last-child {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+/* ==========================================================================
+   Notifications Center
+   ========================================================================== */
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.notification-item.unread {
+  background-color: var(--color-primary-subtle);
+  border-left: 3px solid var(--color-primary);
+}
+
+.notification-body {
+  flex: 1;
+}
+
+.notification-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.notification-text {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 3px;
+}
+
+/* ==========================================================================
+   Interactive Calendar Enhancements (Section 11)
+   ========================================================================== */
+
+.calendar-day-cell.clickable {
+  cursor: pointer;
+  transition: background-color var(--trans-fast), transform var(--trans-fast), border-color var(--trans-fast);
+}
+
+.calendar-day-cell.clickable:hover {
+  background-color: #F0FDF4;
+  border-color: var(--color-primary);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.calendar-day-cell.has-events {
+  border-top: 3px solid var(--color-primary);
+  background-color: #FAFCF9;
+}
+
+.calendar-day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.calendar-event-count-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Interactive Chart Hover Tooltips (Section 14)
+   ========================================================================== */
+
+.chart-bar {
+  cursor: pointer;
+  transition: transform var(--trans-fast), filter var(--trans-fast);
+}
+
+.chart-bar:hover {
+  transform: scaleY(1.05);
+  filter: brightness(1.15);
+}
+
+.chart-bar:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  background: rgba(15, 23, 42, 0.95);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: pre;
+  border-radius: 4px;
+  z-index: 200;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   Header Notification Dropdown Panel (Section 10)
+   ========================================================================== */
+
+.notif-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.notif-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1070;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: dropdownEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.notif-dropdown-panel.open {
+  display: flex;
+}
+
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.notif-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.notif-dropdown-title {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notif-dropdown-list {
+  max-height: 360px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-dropdown-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: background-color var(--trans-fast);
+  cursor: pointer;
+}
+
+.notif-dropdown-item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.notif-dropdown-item.unread {
+  background-color: var(--color-primary-subtle);
+  border-left: 3px solid var(--color-primary);
+}
+
+.notif-dropdown-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+}
+
+/* ==========================================================================
+   10-Stage Statutory Instrument Lifecycle Timeline (Section 13)
+   ========================================================================== */
+
+.lifecycle-timeline-10stage {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 24px 0;
+  padding-left: 32px;
+}
+
+.lifecycle-timeline-10stage::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 13px;
+  width: 3px;
+  background: var(--color-border);
+}
+
+.lifecycle-node {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.lifecycle-node:last-child {
+  margin-bottom: 0;
+}
+
+.lifecycle-node-point {
+  position: absolute;
+  left: -32px;
+  top: 3px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  z-index: 2;
+}
+
+.lifecycle-node.completed .lifecycle-node-point {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+.lifecycle-node.active .lifecycle-node-point {
+  background: var(--color-warning);
+  color: #FFFFFF;
+  border-color: var(--color-warning);
+  animation: pulsePoint 1.5s infinite;
+}
+
+.lifecycle-node.failed .lifecycle-node-point {
+  background: var(--color-danger);
+  color: #FFFFFF;
+  border-color: var(--color-danger);
+}
+
+@keyframes pulsePoint {
+  0% { box-shadow: 0 0 0 0 rgba(201, 151, 43, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(201, 151, 43, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 151, 43, 0); }
+}
+
+.lifecycle-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-xs);
+}
+
+.lifecycle-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.lifecycle-step-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.lifecycle-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px 16px;
+  font-size: 0.8125rem;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.lifecycle-meta-label {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lifecycle-meta-value {
+  color: var(--color-text);
+  font-weight: 600;
+}
+

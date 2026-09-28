@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 68" fill="none" width="100%" height="100%">
+  <!-- Measure X — Institutional Government-Service Brand Logo -->
+  <defs>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Geometric Metrology Emblem -->
+  <g transform="translate(6, 6)">
+    <!-- Base Shield / Hexagonal Emblem -->
+    <rect x="2" y="2" width="52" height="52" rx="8" fill="#0B5D4B" stroke="#C9972B" stroke-width="2" />
+    
+    <!-- Central Pillar with Precision Calibration Ticks -->
+    <line x1="28" y1="12" x2="28" y2="44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Vernier Measurement Ticks -->
+    <line x1="24" y1="18" x2="32" y2="18" stroke="#C9972B" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="25" y1="23" x2="31" y2="23" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="23" y1="28" x2="33" y2="28" stroke="#C9972B" stroke-width="2" stroke-linecap="round" />
+    <line x1="25" y1="33" x2="31" y2="33" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" />
+    <line x1="24" y1="38" x2="32" y2="38" stroke="#C9972B" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Symmetrical Balance Scale Beam -->
+    <path d="M14 19 L28 14 L42 19" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="28" cy="14" r="3.5" fill="#C9972B" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Left & Right Weighing Pans -->
+    <path d="M14 19 L11 29 L17 29 Z" fill="#C9972B" opacity="0.9" />
+    <line x1="8" y1="29" x2="20" y2="29" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+
+    <path d="M42 19 L39 29 L45 29 Z" fill="#C9972B" opacity="0.9" />
+    <line x1="36" y1="29" x2="48" y2="29" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Verification Checkmark Base -->
+    <path d="M18 43 L26 49 L41 34" stroke="#C9972B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Institutional Typography -->
+  <g transform="translate(74, 15)">
+    <!-- Primary Wordmark -->
+    <text x="0" y="27" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" fill="#0B5D4B" letter-spacing="-0.8">Measure</text>
+    <text x="114" y="27" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="900" fill="#C9972B" letter-spacing="-0.5">X</text>
+    <!-- Government Service Descriptor -->
+    <text x="1" y="44" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#5F6B66" letter-spacing="1.4">DIGITAL LEGAL METROLOGY PLATFORM</text>
+  </g>
+</svg>
