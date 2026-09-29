@@ -63,3 +63,4 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 .kilo/
+supabase/.temp/
