@@ -50,13 +50,37 @@ class MeasureXAPI {
     } catch (e) {}
   }
 
-  async _delay(ms = 30) {
+  _cache = new Map();
+  _pending = new Map();
+
+  async _delay(ms = 0) {
+    if (!ms) return;
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Robust Fetch Wrapper with JWT Injection and Error Normalization
+  invalidateCache() {
+    this._cache.clear();
+  }
+
+  // Robust Fetch Wrapper with In-Flight Deduplication, Fast Cache & Error Normalization
   async _fetch(endpoint, options = {}) {
+    const method = (options.method || 'GET').toUpperCase();
+    const isGet = method === 'GET';
     const url = `${this.apiBaseUrl}${endpoint}`;
+
+    // For non-GET mutations, clear cache immediately
+    if (!isGet) {
+      this.invalidateCache();
+    } else if (!options.force) {
+      const cached = this._cache.get(url);
+      if (cached && (Date.now() - cached.timestamp < 6000)) {
+        return JSON.parse(JSON.stringify(cached.data));
+      }
+      if (this._pending.has(url)) {
+        return this._pending.get(url);
+      }
+    }
+
     const headers = Object.assign({}, options.headers || {});
 
     // Inject Bearer token if present
@@ -74,13 +98,34 @@ class MeasureXAPI {
       headers
     };
 
-    let response;
-    try {
-      response = await fetch(url, fetchOptions);
-    } catch (netErr) {
-      console.error('[MeasureX API Network Error]', endpoint, netErr);
-      throw new Error('Unable to connect to Measure X server. Please start the backend service.');
+    const execFetch = async () => {
+      let response;
+      try {
+        response = await fetch(url, fetchOptions);
+      } catch (netErr) {
+        console.error('[MeasureX API Network Error]', endpoint, netErr);
+        throw new Error('Unable to connect to Measure X server. Please start the backend service.');
+      } finally {
+        if (isGet) {
+          this._pending.delete(url);
+        }
+      }
+      return this._handleResponse(response, endpoint, url);
+    };
+
+    if (isGet && !options.force) {
+      const p = execFetch().then(data => {
+        this._cache.set(url, { timestamp: Date.now(), data });
+        return data;
+      });
+      this._pending.set(url, p);
+      return p;
     }
+
+    return execFetch();
+  }
+
+  async _handleResponse(response, endpoint, url) {
 
     // Handle 401 Unauthorized
     if (response.status === 401) {

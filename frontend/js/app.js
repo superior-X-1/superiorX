@@ -52,15 +52,21 @@ class MeasureXApp {
 
     const dismissSplash = () => {
       splash.classList.add('fade-out');
-      setTimeout(() => splash.remove(), 450);
+      setTimeout(() => splash.remove(), 250);
     };
 
     if (skipBtn) {
       skipBtn.addEventListener('click', dismissSplash);
     }
 
-    // Auto dismiss after 2 seconds
-    setTimeout(dismissSplash, 2100);
+    if (sessionStorage.getItem('measurex_splash_seen')) {
+      splash.remove();
+      return;
+    }
+    sessionStorage.setItem('measurex_splash_seen', '1');
+
+    // Auto dismiss quickly for a snappy initial experience
+    setTimeout(dismissSplash, 400);
   }
 
   initScrollReveal() {
@@ -855,58 +861,50 @@ class MeasureXApp {
 
     this.updateHeaderUI();
 
-    // Asynchronously fetch fresh data from MySQL for active dashboards
+    // Instant Optimistic Rendering: Render immediately with in-memory state
+    this.renderView(path, params);
+
+    // Asynchronously revalidate fresh data from database in background
     if (window.api && typeof window.api.getToken === 'function' && window.api.getToken()) {
+      let bgPromise = null;
       if (path.startsWith('owner-')) {
-        Promise.all([
+        bgPromise = Promise.all([
           window.api.getInstruments(),
           window.api.getApplications(),
           window.api.getCertificates(),
           window.api.getNotifications()
-        ]).then(() => {
-          this.renderView(path, params);
-        }).catch(() => {
-          this.renderView(path, params);
-        });
-        return;
+        ]);
       } else if (path.startsWith('lmo-')) {
-        Promise.all([
+        bgPromise = Promise.all([
           window.api.getApplications(),
           window.api.getInstruments(),
           window.api.getCertificates(),
           window.api.getCalendarEvents(),
           window.api.getNotifications()
-        ]).then(() => {
-          this.renderView(path, params);
-        }).catch(() => {
-          this.renderView(path, params);
-        });
-        return;
+        ]);
       } else if (path.startsWith('gatc-')) {
-        Promise.all([
+        bgPromise = Promise.all([
           window.api.getApplications(),
           window.api.getCertificates(),
           window.api.getCalendarEvents(),
           window.api.getNotifications()
-        ]).then(() => {
-          this.renderView(path, params);
-        }).catch(() => {
-          this.renderView(path, params);
-        });
-        return;
+        ]);
       } else if (path.startsWith('admin-')) {
-        Promise.all([
+        bgPromise = Promise.all([
           window.api.getUsers(),
           window.api.getInstruments(),
           window.api.getApplications(),
           window.api.getCertificates(),
           window.api.getAuditTrail()
-        ]).then(() => {
-          this.renderView(path, params);
-        }).catch(() => {
-          this.renderView(path, params);
-        });
-        return;
+        ]);
+      }
+
+      if (bgPromise) {
+        bgPromise.then(() => {
+          if (this.currentRoute === path) {
+            this.renderView(path, params);
+          }
+        }).catch(() => {});
       }
     }
 

@@ -58,7 +58,26 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Network-first with cache fallback for HTML pages and app shell
+  // 2. Stale-While-Revalidate for static assets (instantaneous 0ms load from cache + async background update)
+  const isStaticAsset = url.pathname.match(/\.(js|css|svg|png|jpg|jpeg|woff2?|ico)$/i) || STATIC_ASSETS.includes(url.pathname);
+  if (isStaticAsset) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        }).catch(() => null);
+
+        return cachedResponse || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // 3. Network-first with cache fallback for navigation and HTML documents
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {

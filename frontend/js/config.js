@@ -22,6 +22,9 @@
 
       // If running frontend on dev server (localhost / 127.0.0.1 on port 3000, 5000, 5500, etc.)
       if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        if (port === '3000') {
+          return `${origin}/api/v1`;
+        }
         return 'http://127.0.0.1:8000/api/v1';
       }
 
@@ -30,8 +33,9 @@
         return `${protocol}//${hostname}:8000/api/v1`;
       }
 
-      // Production deployment (Vercel or custom domain) -> Render FastAPI Backend
-      return 'https://superiorx-backend.onrender.com/api/v1';
+      // Production deployment (Vercel or custom domain)
+      // Same-origin /api/v1 leverages Vercel Edge proxy and eliminates CORS OPTIONS preflight overhead
+      return `${origin}/api/v1`;
     }
 
     return 'http://127.0.0.1:8000/api/v1';
@@ -47,8 +51,8 @@
     USE_MOCK: false,
     BACKEND_AVAILABLE: true,
 
-    // Simulated latency in milliseconds for UI feedback
-    SIMULATE_LATENCY_MS: 50,
+    // Zero simulated latency for instantaneous, smooth UI feedback
+    SIMULATE_LATENCY_MS: 0,
 
     // Platform release version
     VERSION: '2.4.0-PROD',
