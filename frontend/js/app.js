@@ -22,7 +22,10 @@ class MeasureXApp {
     window.state.subscribe('state:changed', () => this.updateHeaderUI());
     window.state.subscribe('role:changed', () => {
       this.updateHeaderUI();
-      this.handleRouting();
+      const { path } = this.parseRoute();
+      if (!path.startsWith('login') && !path.startsWith('register')) {
+        this.handleRouting();
+      }
     });
 
     // Handle splash screen
@@ -232,14 +235,13 @@ class MeasureXApp {
         if (toggleBtn) toggleBtn.innerHTML = '☰';
       }
 
-      // Auto-collapse expanded desktop sidebar overlay when user clicks outside on main content
-      if (window.innerWidth > 1024 && e.target.closest('.app-main')) {
-        const sidebar = document.getElementById('app-sidebar');
-        if (sidebar && !sidebar.classList.contains('collapsed')) {
-          sidebar.classList.add('collapsed');
-          document.body.classList.add('sidebar-collapsed');
-          localStorage.setItem('measurex_sidebar_collapsed', 'true');
-          this.updateSidebarToggleIcon(true);
+      // Immediate hash routing if user clicks an anchor pointing to the current hash
+      const hashAnchor = e.target.closest('a[href^="#"]');
+      if (hashAnchor) {
+        const href = hashAnchor.getAttribute('href');
+        if (href && window.location.hash === href) {
+          e.preventDefault();
+          this.handleRouting();
         }
       }
 
@@ -930,23 +932,33 @@ class MeasureXApp {
       'register', 'register-owner', 'forgot-password', 'reset-password'
     ].includes(path);
 
+    const existingMain = document.getElementById('main-content-area');
+
     if (isPublicOrAuth) {
       document.body.classList.remove('has-sidebar');
       document.body.classList.remove('sidebar-collapsed');
-      appBody.innerHTML = `
-        <div class="app-main full-width-view" id="main-content-area" tabindex="-1"></div>
-      `;
+      if (!existingMain || existingSidebar) {
+        appBody.innerHTML = `
+          <div class="app-main full-width-view" id="main-content-area" tabindex="-1"></div>
+        `;
+      }
     } else {
       document.body.classList.add('has-sidebar');
       const role = window.state.getCurrentRole();
       const isCollapsed = (typeof localStorage !== 'undefined' && localStorage.getItem('measurex_sidebar_collapsed') === 'true' && window.innerWidth > 1024);
       document.body.classList.toggle('sidebar-collapsed', isCollapsed);
-      appBody.innerHTML = `
-        <aside class="sidebar ${isCollapsed ? 'collapsed' : ''}" id="app-sidebar" aria-label="Role Navigation">
-          ${this.renderSidebarMenu(role, path)}
-        </aside>
-        <main class="app-main" id="main-content-area" tabindex="-1"></main>
-      `;
+
+      if (existingSidebar && existingMain) {
+        existingSidebar.innerHTML = this.renderSidebarMenu(role, path);
+        existingSidebar.className = `sidebar ${isCollapsed ? 'collapsed' : ''}`;
+      } else {
+        appBody.innerHTML = `
+          <aside class="sidebar ${isCollapsed ? 'collapsed' : ''}" id="app-sidebar" aria-label="Role Navigation">
+            ${this.renderSidebarMenu(role, path)}
+          </aside>
+          <main class="app-main" id="main-content-area" tabindex="-1"></main>
+        `;
+      }
       this.updateSidebarToggleIcon(isCollapsed);
     }
 
@@ -2781,19 +2793,21 @@ class MeasureXApp {
           }
 
           // Route according to detected database role
-          let targetRoute = '#landing';
-          if (detectedRole === 'OWNER') targetRoute = '#owner-dashboard';
-          else if (detectedRole === 'LMO') targetRoute = '#lmo-dashboard';
-          else if (detectedRole === 'ADMIN') targetRoute = '#admin-dashboard';
-          else targetRoute = '#lmo-dashboard';
+          let targetRoute = 'landing';
+          if (detectedRole === 'OWNER') targetRoute = 'owner-dashboard';
+          else if (detectedRole === 'LMO') targetRoute = 'lmo-dashboard';
+          else if (detectedRole === 'ADMIN') targetRoute = 'admin-dashboard';
+          else targetRoute = 'lmo-dashboard';
 
           if (this.routeParams && this.routeParams.redirect) {
-            targetRoute = decodeURIComponent(this.routeParams.redirect);
+            const raw = decodeURIComponent(this.routeParams.redirect);
+            targetRoute = raw.startsWith('#') ? raw.slice(1) : raw;
           }
 
-          setTimeout(() => {
-            window.location.hash = targetRoute;
-          }, 200);
+          // Immediately navigate and trigger routing without delay
+          window.location.hash = `#${targetRoute}`;
+          this.handleRouting();
+          return;
         } else {
           if (submitBtn) {
             submitBtn.disabled = false;
