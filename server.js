@@ -17,7 +17,9 @@ const os = require('os');
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const HOST = process.env.HOST || null; // null enables dual-stack (both IPv4 0.0.0.0 and IPv6 :: for localhost)
 const BACKEND_URL = process.env.BACKEND_URL || 'http://127.0.0.1:8000';
-const PUBLIC_DIR = __dirname;
+const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'frontend', 'index.html'))
+  ? path.join(__dirname, 'frontend')
+  : __dirname;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
