@@ -3,7 +3,11 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
+      "destination": "https://superiorx-backend.onrender.com/api/$1"
+    },
+    {
+      "source": "/((?!css/|js/|assets/|favicon.ico|manifest.json|service-worker.js).*)",
       "destination": "/index.html"
     }
   ],

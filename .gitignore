@@ -64,3 +64,4 @@ Thumbs.db
 *.sublime-workspace
 .kilo/
 supabase/.temp/
+.vercel/
