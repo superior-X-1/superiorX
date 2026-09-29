@@ -9,7 +9,7 @@
   <title>Measure X — Online Verification of Weighing &amp; Measuring Instruments</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="frontend/assets/logo/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg" />
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,11 +20,11 @@
   <link rel="manifest" href="manifest.json" />
 
   <!-- Core Stylesheets -->
-  <link rel="stylesheet" href="frontend/css/main.css" />
-  <link rel="stylesheet" href="frontend/css/components.css" />
-  <link rel="stylesheet" href="frontend/css/dashboard.css" />
-  <link rel="stylesheet" href="frontend/css/certificate.css" />
-  <link rel="stylesheet" href="frontend/css/responsive.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/certificate.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
 
@@ -165,23 +165,23 @@
   <div id="toast-container" aria-live="assertive"></div>
 
   <!-- External & Vendor Libraries -->
-  <script src="frontend/js/vendor/html5-qrcode.min.js"></script>
+  <script src="js/vendor/html5-qrcode.min.js"></script>
 
   <!-- JavaScript Modules in Dependency Order -->
-  <script src="frontend/js/config.js"></script>
-  <script src="frontend/js/data/mock-data.js"></script>
-  <script src="frontend/js/state/state.js"></script>
-  <script src="frontend/js/services/api.js"></script>
-  <script src="frontend/js/services/offline-sync.js"></script>
-  <script src="frontend/js/ui/validation.js"></script>
-  <script src="frontend/js/ui/components.js"></script>
-  <script src="frontend/js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data/mock-data.js"></script>
+  <script src="js/state/state.js"></script>
+  <script src="js/services/api.js"></script>
+  <script src="js/services/offline-sync.js"></script>
+  <script src="js/ui/validation.js"></script>
+  <script src="js/ui/components.js"></script>
+  <script src="js/app.js"></script>
 
   <!-- Service Worker Registration for PWA Offline Mode -->
   <script>
     if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('service-worker.js')
           .then(reg => console.log('[MeasureX PWA] Service Worker registered:', reg.scope))
           .catch(err => console.log('[MeasureX PWA] Service Worker registration failed:', err));
       });

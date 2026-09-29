@@ -55,6 +55,15 @@ from backend.qr_service import (
     build_verification_url, generate_certificate_qr,
     generate_qr_code_png_bytes, generate_qr_data_url
 )
+from backend import storage
+from backend.dependencies import get_db
+from backend.schemas import (
+    LoginRequest, RegisterRequest, ForgotPasswordRequest, ResetPasswordRequest,
+    ChangePasswordRequest, OTPRequest, OTPVerifyRequest, SendNotificationRequest,
+    UpdateUserStatusRequest, InstrumentCreate, ApplicationCreate, ScheduleRequest,
+    AllocateRequest, ReassignRequest, TestPointInput, VerificationSubmitRequest,
+    RevokeCertificateRequest, ApplicationActionRequest, OfflineSyncItem, OfflineSyncRequest
+)
 
 # -----------------------------------------------------------------------------
 # Storage Directories Configuration
@@ -62,8 +71,11 @@ from backend.qr_service import (
 UPLOAD_DIR = Path(os.environ.get("FILE_STORAGE_PATH", current_dir.parent / "storage" / "uploads"))
 DOCUMENTS_DIR = UPLOAD_DIR / "documents"
 EVIDENCE_DIR = UPLOAD_DIR / "evidence"
-DOCUMENTS_DIR.mkdir(parents=True, exist_ok=True)
-EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    DOCUMENTS_DIR.mkdir(parents=True, exist_ok=True)
+    EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+except (OSError, PermissionError):
+    pass
 
 # -----------------------------------------------------------------------------
 # FastAPI App Initialization
@@ -85,6 +97,8 @@ default_origins = [
     "http://127.0.0.1:8000",
     "http://localhost",
     "http://127.0.0.1",
+    "https://superiorx.vercel.app",
+    "https://measurex.vercel.app"
 ]
 if cors_origins_env and cors_origins_env != "*":
     origins = [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()] + default_origins
@@ -94,180 +108,12 @@ else:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$",
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+|[a-zA-Z0-9-]+\.vercel\.app|[a-zA-Z0-9-]+\.onrender\.com)(:\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
-
-# -----------------------------------------------------------------------------
-# Request Schemas
-# -----------------------------------------------------------------------------
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-
-class RegisterRequest(BaseModel):
-    name: str
-    email: str
-    mobile: str
-    password: str
-    accountType: Optional[str] = None
-    role: Optional[str] = None
-    businessName: Optional[str] = None
-    testCentreName: Optional[str] = None
-    businessType: Optional[str] = None
-    address: Optional[str] = None
-    district: Optional[str] = None
-    state: Optional[str] = None
-    pincode: Optional[str] = None
-    idType: Optional[str] = None
-    idNumber: Optional[str] = None
-    accreditationNumber: Optional[str] = None
-    department: Optional[str] = None
-    designation: Optional[str] = None
-    employeeId: Optional[str] = None
-    jurisdiction: Optional[str] = None
-    officeAddress: Optional[str] = None
-    adminCode: Optional[str] = None
-
-class ForgotPasswordRequest(BaseModel):
-    email: str
-
-class ResetPasswordRequest(BaseModel):
-    token: str
-    new_password: Optional[str] = None
-    newPassword: Optional[str] = None
-
-    @property
-    def target_password(self) -> str:
-        return self.new_password or self.newPassword or ""
-
-class OTPRequest(BaseModel):
-    recipient: str
-    purpose: str = "PASSWORD_RESET"
-
-class OTPVerifyRequest(BaseModel):
-    recipient: str
-    otp: str
-    purpose: str = "PASSWORD_RESET"
-
-class SendNotificationRequest(BaseModel):
-    targetType: str = "GROUP"  # 'USER', 'GROUP', 'ALL'
-    targetRecipient: str
-    title: str
-    message: str
-    priority: str = "MEDIUM"
-    actionUrl: Optional[str] = None
-    relatedEntity: Optional[str] = None
-    relatedId: Optional[str] = None
-
-class UpdateUserStatusRequest(BaseModel):
-    status: str
-    notes: Optional[str] = None
-
-class InstrumentCreate(BaseModel):
-    type: str
-    manufacturer: str
-    model: str
-    serialNumber: str
-    capacity: str
-    location: str
-    accuracyClass: Optional[str] = "Class III"
-    verificationScaleIntervalE: Optional[str] = None
-    minimumCapacity: Optional[str] = None
-    purchaseDate: Optional[str] = None
-    installationDetails: Optional[str] = None
-    district: Optional[str] = None
-    state: Optional[str] = None
-
-class ApplicationCreate(BaseModel):
-    instrumentId: str
-    applicationType: str = "RE_VERIFICATION"
-    preferredLocation: str
-    remarks: Optional[str] = None
-
-class ScheduleRequest(BaseModel):
-    officerId: Optional[str] = None
-    inspectorId: Optional[str] = None
-    inspectorType: Optional[str] = "LMO"
-    date: str
-    time: str
-    location: Optional[str] = None
-    notes: Optional[str] = None
-
-class AllocateRequest(BaseModel):
-    assignmentType: Optional[str] = "LMO"
-    assignedId: str # officerId
-    assignedName: Optional[str] = None
-    scheduledDate: Optional[str] = None
-    scheduledTime: Optional[str] = None
-    scheduledLocation: Optional[str] = None
-    notes: Optional[str] = None
-
-class ReassignRequest(BaseModel):
-    assignmentType: Optional[str] = "LMO"
-    assignedId: str
-    assignedName: Optional[str] = None
-    reason: str
-
-class TestPointInput(BaseModel):
-    name: str = "Test Point"
-    nominalLoad: float
-    observedLoad: float
-    unit: str = "kg"
-    toleranceMpe: Optional[float] = None
-
-class VerificationSubmitRequest(BaseModel):
-    applicationId: str
-    inspectorType: Optional[str] = "LMO"
-    physicalCondition: str = "PASS" # PASS / FAIL / NA
-    levelIndicator: str = "PASS" # PASS / FAIL / NA
-    zeroCheck: str = "PASS" # PASS / FAIL / NA
-    displayPointer: str = "PASS" # PASS / FAIL / NA
-    sealCheck: str = "PASS" # PASS / FAIL / NA
-    statutoryMarkings: str = "PASS" # PASS / FAIL / NA
-    testPoints: Optional[List[TestPointInput]] = None
-    nominalTestWeight: Optional[str] = None
-    observedMeasurement: Optional[str] = None
-    permissibleError: Optional[str] = None
-    unit: str = "kg"
-    scaleIntervalE: Optional[str] = None
-    accuracyClass: Optional[str] = "Class III"
-    wireSealNumber: Optional[str] = None
-    result: Optional[str] = None
-    failReason: Optional[str] = None
-    remarks: Optional[str] = None
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
-
-class RevokeCertificateRequest(BaseModel):
-    reason: str
-
-class ApplicationActionRequest(BaseModel):
-    reason: Optional[str] = None
-    remarks: Optional[str] = None
-    documents: Optional[List[Dict[str, Any]]] = None
-
-class OfflineSyncItem(BaseModel):
-    operationId: str
-    entityType: str # "INSPECTION" or "EVIDENCE"
-    entityId: str
-    payload: Dict[str, Any]
-
-class OfflineSyncRequest(BaseModel):
-    operations: List[OfflineSyncItem]
-
-
-# -----------------------------------------------------------------------------
-# Database Session Dependency & Helper Functions
-# -----------------------------------------------------------------------------
-def get_db():
-    session = db.get_session()
-    try:
-        yield session
-    finally:
-        session.close()
 
 
 def send_system_notification(session: Session, recipient_id: Optional[str], target_role: str,
@@ -821,11 +667,6 @@ async def reset_password(req: ResetPasswordRequest, session: Session = Depends(g
         "success": True,
         "message": "Password updated successfully. You may now log in with your new password."
     }
-
-
-class ChangePasswordRequest(BaseModel):
-    currentPassword: str
-    newPassword: str
 
 
 @app.post("/api/v1/auth/change-password")
@@ -1417,7 +1258,7 @@ def build_application_timeline_records(app_obj: Application, session: Session) -
     # Stage 3: Directorate Documentary Scrutiny
     is_corr = (app_obj.status == "CORRECTION_REQUESTED")
     is_scrutiny_active = (app_obj.status in ["SUBMITTED", "PENDING", "NEW"])
-    
+
     if is_corr:
         timeline.append({
             "stage": "SCRUTINY",
@@ -2220,10 +2061,12 @@ async def upload_application_document(
     ext = Path(orig_name).suffix or ".pdf"
     doc_id = f"DOC-{datetime.utcnow().year}-{secrets_hex_str(4)}"
     stored_name = f"{doc_id}_{datetime.utcnow().strftime('%y%m%d%H%M%S')}{ext}"
-    storage_path = str(DOCUMENTS_DIR / stored_name)
-
-    with open(storage_path, "wb") as f:
-        f.write(content)
+    storage_path, file_url = storage.save_upload_file(
+        category="documents",
+        filename=stored_name,
+        content=content,
+        content_type=mime
+    )
 
     doc_record = ApplicationDocument(
         id=doc_id,
@@ -2231,7 +2074,7 @@ async def upload_application_document(
         document_type=documentType,
         file_name=stored_name,
         original_filename=orig_name,
-        file_url=f"/api/v1/documents/{doc_id}/download",
+        file_url=file_url if file_url.startswith("http") else f"/api/v1/documents/{doc_id}/download",
         storage_path=storage_path,
         file_size_bytes=file_size,
         mime_type=mime,
@@ -2279,13 +2122,13 @@ async def download_document(
 ):
     """Downloads or views an uploaded statutory document."""
     doc = session.query(ApplicationDocument).filter(ApplicationDocument.id == document_id).first()
-    if not doc or not doc.storage_path or not os.path.exists(doc.storage_path):
+    if not doc or not doc.storage_path:
         raise HTTPException(status_code=404, detail="Document file not found on server")
 
-    return FileResponse(
-        path=doc.storage_path,
-        media_type=doc.mime_type or "application/octet-stream",
-        filename=doc.original_filename or doc.file_name
+    return storage.serve_file(
+        storage_path=doc.storage_path,
+        filename=doc.original_filename or doc.file_name,
+        mime_type=doc.mime_type
     )
 
 
@@ -2303,11 +2146,8 @@ async def delete_document(
     if current_user.role_id == "OWNER" and doc.uploaded_by != current_user.id:
         raise HTTPException(status_code=403, detail="Access denied to delete this document.")
 
-    if doc.storage_path and os.path.exists(doc.storage_path):
-        try:
-            os.remove(doc.storage_path)
-        except Exception:
-            pass
+    if doc.storage_path:
+        storage.delete_file(doc.storage_path)
 
     session.delete(doc)
     session.commit()
@@ -2796,10 +2636,12 @@ async def upload_verification_evidence(
     ext = Path(orig_name).suffix or ".jpg"
     evd_id = f"EVD-{datetime.utcnow().year}-{secrets_hex_str(4)}"
     stored_name = f"{evd_id}_{datetime.utcnow().strftime('%y%m%d%H%M%S')}{ext}"
-    storage_path = str(EVIDENCE_DIR / stored_name)
-
-    with open(storage_path, "wb") as f:
-        f.write(content)
+    storage_path, file_url = storage.save_upload_file(
+        category="evidence",
+        filename=stored_name,
+        content=content,
+        content_type=file.content_type or "image/jpeg"
+    )
 
     target_rec_id = recordId
     if not target_rec_id and applicationId:
@@ -2814,7 +2656,7 @@ async def upload_verification_evidence(
         evidence_category=category,
         caption=caption,
         file_name=stored_name,
-        file_url=f"/api/v1/evidence/{evd_id}/download",
+        file_url=file_url if file_url.startswith("http") else f"/api/v1/evidence/{evd_id}/download",
         storage_path=storage_path,
         file_size_bytes=file_size,
         mime_type=file.content_type or "image/jpeg",
@@ -2859,13 +2701,13 @@ async def download_evidence(
 ):
     """Downloads or streams an uploaded inspection photo."""
     evd = session.query(VerificationEvidence).filter(VerificationEvidence.id == evidence_id).first()
-    if not evd or not evd.storage_path or not os.path.exists(evd.storage_path):
+    if not evd or not evd.storage_path:
         raise HTTPException(status_code=404, detail="Evidence file not found on disk")
 
-    return FileResponse(
-        path=evd.storage_path,
-        media_type=evd.mime_type or "image/jpeg",
-        filename=evd.file_name
+    return storage.serve_file(
+        storage_path=evd.storage_path,
+        filename=evd.file_name,
+        mime_type=evd.mime_type or "image/jpeg"
     )
 
 
@@ -3813,6 +3655,23 @@ async def serve_spa_or_static(full_path: str):
     """Serves root static files (index.html, favicon, etc.) with clean fallback."""
     if full_path.startswith("api/"):
         raise HTTPException(status_code=404, detail="API endpoint not found")
+
+    # Block public access to internal system files and directories (Rule 7)
+    blocked_prefixes = (
+        "tests", "scripts", "docs", "backend", "storage",
+        "keys", "venv", ".git", ".env"
+    )
+    norm_path = full_path.strip("/\\")
+    top_seg = norm_path.split("/")[0].split("\\")[0]
+    if top_seg in blocked_prefixes:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    blocked_files = {
+        "requirements.txt", ".python-version", "package.json",
+        "server.js", "Procfile", "serve.json", "VERSION"
+    }
+    if norm_path in blocked_files:
+        raise HTTPException(status_code=404, detail="Not found")
 
     # Check root directory first
     target_root = root_dir / full_path

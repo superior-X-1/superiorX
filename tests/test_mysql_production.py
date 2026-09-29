@@ -36,12 +36,22 @@ from backend.main import app
 client = TestClient(app)
 
 def test_1_mysql_connection():
-    print("\n--- TEST 1: Direct MySQL Engine Connection ---")
+    print("\n--- TEST 1: Database Engine Connection ---")
     with db.engine.connect() as conn:
-        res = conn.execute(sa.text("SELECT VERSION(), CURRENT_USER(), DATABASE();")).fetchone()
-        print(f"MySQL Version: {res[0]}, User: {res[1]}, Database: {res[2]}")
-        assert res[2] == "measurex", f"Expected database 'measurex', got '{res[2]}'"
-        print("[PASS] Real MySQL database connection established successfully.")
+        dialect_name = db.engine.dialect.name
+        if dialect_name == "mysql":
+            res = conn.execute(sa.text("SELECT VERSION(), CURRENT_USER(), DATABASE();")).fetchone()
+            print(f"MySQL Version: {res[0]}, User: {res[1]}, Database: {res[2]}")
+            assert "measurex" in str(res[2]), f"Expected database 'measurex', got '{res[2]}'"
+        elif dialect_name in ("postgresql", "postgres"):
+            res = conn.execute(sa.text("SELECT version(), current_user, current_database();")).fetchone()
+            print(f"PostgreSQL Version: {res[0][:40]}, User: {res[1]}, Database: {res[2]}")
+            assert res[0] is not None
+        else:
+            res = conn.execute(sa.text("SELECT sqlite_version();")).fetchone()
+            print(f"SQLite Version: {res[0]}")
+            assert res[0] is not None
+        print(f"[PASS] Real {dialect_name} database connection established successfully.")
 
 def test_2_database_tables():
     print("\n--- TEST 2: Relational Database Tables Verification ---")

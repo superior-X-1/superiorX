@@ -7,34 +7,40 @@
 (function (window) {
   // 1. Resolve default API URL based on current host context
   function resolveDefaultApiUrl() {
+    // 1. Check window global override (e.g. injected by runtime)
+    if (typeof window !== 'undefined' && window.__MEASUREX_API_URL__) {
+      return window.__MEASUREX_API_URL__;
+    }
+
     if (typeof window !== 'undefined' && window.location) {
       const { hostname, protocol, port, origin } = window.location;
 
-      // When frontend is served on port 3000 (Node proxy), 8000 (FastAPI), 80, or 443
-      if (port === '3000' || port === '8000' || port === '80' || port === '443') {
+      // If running frontend on FastAPI port 8000
+      if (port === '8000') {
         return `${origin}/api/v1`;
       }
 
-      // If running frontend on custom dev port
+      // If running frontend on dev server (localhost / 127.0.0.1 on port 3000, 5000, 5500, etc.)
       if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        return `${origin}/api/v1`;
+        return 'http://127.0.0.1:8000/api/v1';
       }
 
-      // Local network IP
+      // Local network IP (e.g. mobile testing on LAN)
       if (/^192\.168\./.test(hostname) || /^10\./.test(hostname) || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(hostname)) {
         return `${protocol}//${hostname}:8000/api/v1`;
       }
 
-      return `${origin}/api/v1`;
+      // Production deployment (Vercel or custom domain) -> Render FastAPI Backend
+      return 'https://superiorx-backend.onrender.com/api/v1';
     }
 
     return 'http://127.0.0.1:8000/api/v1';
   }
 
-  const userOverrideUrl = localStorage.getItem('measurex_api_url');
+  const userOverrideUrl = (typeof localStorage !== 'undefined') ? localStorage.getItem('measurex_api_url') : null;
 
   const MEASUREX_CONFIG = {
-    // API endpoint
+    // API endpoint (localStorage override > window.__MEASUREX_API_URL__ > host-resolved default)
     API_BASE_URL: userOverrideUrl || resolveDefaultApiUrl(),
 
     // STRICT RULE: Real FastAPI + MySQL backend is ALWAYS the source of truth. NO MOCK.
@@ -72,7 +78,7 @@
       .then(res => {
         if (res.ok) {
           MEASUREX_CONFIG.BACKEND_AVAILABLE = true;
-          console.info('[MeasureX] Statutory Legal Metrology MySQL Backend connected.');
+          console.info('[MeasureX] Statutory Legal Metrology Backend connected.');
         } else {
           MEASUREX_CONFIG.BACKEND_AVAILABLE = false;
         }

@@ -1365,7 +1365,7 @@ class MeasureXApp {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;">
           <div>
             <div style="border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; background-color: var(--color-surface); box-shadow: var(--shadow-sm);">
-              <img src="frontend/assets/images/metrology-inspection.jpg" alt="Legal Metrology Officer calibrating Class III weighing scale with certified standard brass weights" style="width: 100%; height: auto; display: block;" />
+              <img src="assets/images/metrology-inspection.jpg" alt="Legal Metrology Officer calibrating Class III weighing scale with certified standard brass weights" style="width: 100%; height: auto; display: block;" />
               <div style="padding: 12px 16px; background-color: var(--color-surface-alt); border-top: 1px solid var(--color-border); font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.5;">
                 <strong style="color: var(--color-text);">Figure 1:</strong> On-site field calibration of a commercial Class III bench scale conducted by a Legal Metrology Officer using certified Class M1 working standard weights under the Legal Metrology (General) Rules, 2011.
               </div>
@@ -8923,7 +8923,7 @@ class MeasureXApp {
       }
       if (currentSearchTerm) {
         const term = currentSearchTerm.toLowerCase();
-        filtered = filtered.filter(i => 
+        filtered = filtered.filter(i =>
           (i.id + ' ' + (i.serialNumber || '') + ' ' + (i.model || '') + ' ' + (i.ownerName || i.businessName || '') + ' ' + (i.manufacturer || '')).toLowerCase().includes(term)
         );
       }

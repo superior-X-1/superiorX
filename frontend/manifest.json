@@ -4,12 +4,12 @@
   "description": "Statutory verification, certification, and tracking of commercial weighing and measuring instruments under the Legal Metrology Act, 2009.",
   "icons": [
     {
-      "src": "/frontend/assets/logo/favicon.svg",
+      "src": "assets/logo/favicon.svg",
       "type": "image/svg+xml",
       "sizes": "192x192 512x512"
     },
     {
-      "src": "/frontend/assets/logo/measure-x-symbol.svg",
+      "src": "assets/logo/measure-x-symbol.svg",
       "type": "image/svg+xml",
       "sizes": "192x192 512x512"
     }

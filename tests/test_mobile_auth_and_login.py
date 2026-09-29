@@ -11,8 +11,20 @@ Tests:
 8. Interactive login flow on 375px mobile viewport completes seamlessly.
 """
 
-from playwright.sync_api import sync_playwright
 import sys
+import urllib.request
+import pytest
+
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    pytest.skip("Playwright is not installed", allow_module_level=True)
+
+try:
+    with urllib.request.urlopen("http://127.0.0.1:3000", timeout=1):
+        pass
+except Exception:
+    pytest.skip("Frontend server not running on http://127.0.0.1:3000", allow_module_level=True)
 
 FRONTEND_URL = "http://127.0.0.1:3000"
 

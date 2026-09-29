@@ -4,7 +4,19 @@ Test suite for Verification Centres Master, Statutory Allocation Assignment Hist
 
 import sys
 import time
-from playwright.sync_api import sync_playwright
+import urllib.request
+import pytest
+
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    pytest.skip("Playwright is not installed", allow_module_level=True)
+
+try:
+    with urllib.request.urlopen("http://127.0.0.1:3000", timeout=1):
+        pass
+except Exception:
+    pytest.skip("Frontend server not running on http://127.0.0.1:3000", allow_module_level=True)
 
 FRONTEND_URL = "http://127.0.0.1:3000"
 
